@@ -4,8 +4,8 @@ import {useEffect, useState} from "react";
 import io from 'socket.io-client';
 function App() {
   const [notiList, setNotiList] = useState([{title:1}, {title:2}]);
-  let ismounted =false;
   useEffect(()=>{
+    let ismounted =false;
     const action = (ismounted)=>{
       ismounted = true;
       loadFromSockets();}
