@@ -3,7 +3,7 @@ import bell from "../src/bell.png"
 import {useEffect, useState} from "react";
 import io from 'socket.io-client';
 function App() {
-  const [notiList, setNotiList] = useState([{title:1}, {title:2}]);
+  const [notiList, setNotiList] = useState([]);
   useEffect(()=>{
     let ismounted =false;
     const action = (ismounted)=>{
@@ -14,14 +14,19 @@ function App() {
     
   },// eslint-disable-next-line
   [])
-
-
+  const update = async(data)=>{
+    setNotiList(data);
+  }
   const loadFromSockets = ()=>{
+    const arr = [];
     const socket = io.connect("http://localhost:4000");
         // On reciveing new-notification from server through Sockets & Update the View
     socket.on("new-notification", async(data)=>{
-      setNotiList([...notiList, {title:data}]);
-      console.log("Added new data" + data);
+      const t = await data;
+      arr.push({title:t});
+      await update(arr);
+      console.log("Added new data" + t);
+      console.log("arr array " + arr);
     })
   }
 
