@@ -4,8 +4,14 @@ import {useEffect, useState} from "react";
 import io from 'socket.io-client';
 function App() {
   const [notiList, setNotiList] = useState([{title:1}, {title:2}]);
+  let ismounted =false;
   useEffect(()=>{
-    loadFromSockets();
+    const action = (ismounted)=>{
+      ismounted = true;
+      loadFromSockets();}
+      action(ismounted);
+    return()=>{ismounted = false}
+    
   },// eslint-disable-next-line
   [])
 
